@@ -1,14 +1,15 @@
-const randomstring = require('randomstring')
+const randomstring = require('randomstring');
 
 module.exports = (oauth2) => {
-  // Build authorization URL
+  // Build the authorization URL
   const authorizationUri = oauth2.authorizeURL({
-    redirect_uri: process.env.REDIRECT_URL,   // <-- this is the KEY fix
+    // IMPORTANT: key name is redirect_uri, not redirectURI
+    redirect_uri: process.env.REDIRECT_URL,
     scope: process.env.SCOPES || 'repo,user',
-    state: randomstring.generate(32)
-  })
+    state: randomstring.generate(32),
+  });
 
-  return (req, res) => {
-    res.redirect(authorizationUri)
-  }
-}
+  return (_req, res) => {
+    res.redirect(authorizationUri);
+  };
+};
